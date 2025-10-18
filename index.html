@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房屋自備款準備表</title>
+    <style>
+        body {
+            font-family: 'Arial', '微軟正黑體', sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-section {
+            background-color: #fffacd;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #f0e68c;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .input-item {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        input[type="number"], input[type="text"], input[type="date"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .section-title {
+            font-weight: bold;
+            color: #4a90e2;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            background-color: #4a90e2;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #333;
+            font-size: 13px;
+        }
+        td {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            font-size: 13px;
+            text-align: right;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+        .price-label {
+            text-align: left;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .highlight-down-payment {
+            background-color: #ffcccc;
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .note {
+            color: #666;
+            font-size: 12px;
+            margin-top: 15px;
+            font-style: italic;
+            line-height: 1.6;
+        }
+        .note strong {
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>房屋自備款準備表</h2>
+        
+        <div class="input-section">
+            <div class="section-title">基本資訊</div>
+            <div class="input-grid">
+                <div class="input-item">
+                    <label for="property">地點/物件名稱：</label>
+                    <input type="text" id="property" placeholder="例：新北市三重區...">
+                </div>
+                <div class="input-item">
+                    <label for="contact">聯絡人：</label>
+                    <input type="text" id="contact" placeholder="例：晨芊">
+                </div>
+                <div class="input-item">
+                    <label for="date">看房日期：</label>
+                    <input type="date" id="date">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 20px;">房屋資訊</div>
+            <div class="input-grid">
+                <div class="input-item">
+                    <label for="sqft">權狀坪數：</label>
+                    <input type="number" id="sqft" value="76.08" step="0.1" placeholder="例：76.08">
+                </div>
+                <div class="input-item">
+                    <label for="parkingSqft">車位坪數：</label>
+                    <input type="number" id="parkingSqft" value="5.21" step="0.1" placeholder="例：5.21">
+                </div>
+                <div class="input-item">
+                    <label for="parkingPrice">車位價格（萬）：</label>
+                    <input type="number" id="parkingPrice" value="180" step="10" placeholder="例：180">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 20px;">價格資訊</div>
+            <div class="input-grid">
+                <div class="input-item">
+                    <label for="listPrice">開價（萬）：</label>
+                    <input type="number" id="listPrice" value="1680" step="10" placeholder="例：1680">
+                </div>
+                <div class="input-item">
+                    <label for="bankEstimate">銀行預估價格（萬）：</label>
+                    <input type="number" id="bankEstimate" value="1293" step="10" placeholder="例：1293">
+                </div>
+                <div class="input-item">
+                    <label for="bankMode">銀行貸款資訊：</label>
+                    <select id="bankMode" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                        <option value="ltv">按成數</option>
+                        <option value="amount">按金額</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-grid">
+                <div class="input-item" id="ltvSection">
+                    <label for="bankLtv">貸款成數（%）：</label>
+                    <input type="number" id="bankLtv" value="80" step="1" min="0" max="100" placeholder="例：80">
+                </div>
+                <div class="input-item" id="amountSection" style="display: none;">
+                    <label for="bankLoanAmount">銀行貸款額（萬）：</label>
+                    <input type="number" id="bankLoanAmount" value="1034" step="10" placeholder="例：1034">
+                </div>
+                <div class="input-item">
+                    <label for="calculatedLtv">計算結果成數：</label>
+                    <input type="text" id="calculatedLtv" readonly style="background-color: #e8f4f8; cursor: not-allowed;">
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>開價（萬元）</th>
+                    <th>房屋實價（萬元）</th>
+                    <th>房屋坪數</th>
+                    <th>單價（萬/坪）</th>
+                    <th>銀行貸款額（萬元）</th>
+                    <th>自備款（萬元）</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+
+        <div class="note">
+            <strong>計算說明：</strong><br>
+            ※ 房屋實價 = 開價 - 車位價格<br>
+            ※ 房屋坪數 = 權狀坪數 - 車位坪數<br>
+            ※ 單價 = 房屋實價 ÷ 房屋坪數<br>
+            ※ 銀行貸款額 = 銀行預估價格 × 貸款成數<br>
+            <strong>※ 自備款 = 開價 - 銀行貸款額</strong>
+        </div>
+    </div>
+
+    <script>
+        function updateTable() {
+            const sqft = parseFloat(document.getElementById('sqft').value) || 0;
+            const parkingSqft = parseFloat(document.getElementById('parkingSqft').value) || 0;
+            const parkingPrice = parseFloat(document.getElementById('parkingPrice').value) || 0;
+            const listPrice = parseFloat(document.getElementById('listPrice').value) || 0;
+            const bankEstimate = parseFloat(document.getElementById('bankEstimate').value) || 0;
+            const bankMode = document.getElementById('bankMode').value;
+            
+            let bankLoan = 0;
+            let calculatedLtv = 0;
+            
+            if (bankMode === 'ltv') {
+                const bankLtv = parseFloat(document.getElementById('bankLtv').value) || 0;
+                bankLoan = Math.round(bankEstimate * bankLtv / 100);
+                calculatedLtv = bankLtv;
+            } else {
+                bankLoan = parseFloat(document.getElementById('bankLoanAmount').value) || 0;
+                calculatedLtv = ((bankLoan / bankEstimate) * 100).toFixed(2);
+            }
+            
+            document.getElementById('calculatedLtv').value = calculatedLtv.toFixed(2) + '%';
+            
+            const houseSqft = sqft - parkingSqft;
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            // 生成價格清單：開價和向下調整的價格
+            const prices = [listPrice];
+            for (let i = 10; i <= 200; i += 10) {
+                if (listPrice - i > 0) {
+                    prices.push(listPrice - i);
+                }
+            }
+            
+            prices.forEach(price => {
+                const housePriceWan = price - parkingPrice;
+                const unitPrice = houseSqft > 0 ? (housePriceWan / houseSqft).toFixed(2) : 0;
+                const downPayment = price - bankLoan;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="price-label">${price}</td>
+                    <td>${housePriceWan}</td>
+                    <td>${houseSqft.toFixed(2)}</td>
+                    <td>${unitPrice}</td>
+                    <td>${bankLoan}</td>
+                    <td class="highlight-down-payment">${downPayment}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        document.getElementById('bankMode').addEventListener('change', function() {
+            const ltvSection = document.getElementById('ltvSection');
+            const amountSection = document.getElementById('amountSection');
+            
+            if (this.value === 'ltv') {
+                ltvSection.style.display = 'flex';
+                amountSection.style.display = 'none';
+            } else {
+                ltvSection.style.display = 'none';
+                amountSection.style.display = 'flex';
+            }
+            updateTable();
+        });
+        
+        document.getElementById('sqft').addEventListener('input', updateTable);
+        document.getElementById('parkingSqft').addEventListener('input', updateTable);
+        document.getElementById('parkingPrice').addEventListener('input', updateTable);
+        document.getElementById('listPrice').addEventListener('input', updateTable);
+        document.getElementById('bankEstimate').addEventListener('input', updateTable);
+        document.getElementById('bankLtv').addEventListener('input', updateTable);
+        document.getElementById('bankLoanAmount').addEventListener('input', updateTable);
+        
+        // 初始化表格
+        updateTable();
+    </script>
+</body>
+</html>
