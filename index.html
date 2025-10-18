@@ -46,7 +46,7 @@
             margin-bottom: 5px;
             font-size: 13px;
         }
-        input[type="number"], input[type="text"], input[type="date"] {
+        input[type="number"], input[type="text"], input[type="date"], select {
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -58,6 +58,28 @@
             margin-top: 15px;
             margin-bottom: 10px;
             font-size: 13px;
+        }
+        .explanation-box {
+            background-color: #e8f4f8;
+            border-left: 4px solid #4a90e2;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .explanation-box h3 {
+            color: #4a90e2;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .explanation-box p {
+            color: #333;
+            margin: 8px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .explanation-box strong {
+            color: #d9534f;
         }
         table {
             width: 100%;
@@ -93,16 +115,6 @@
         .highlight-down-payment {
             background-color: #ffcccc;
             font-weight: bold;
-            color: #d9534f;
-        }
-        .note {
-            color: #666;
-            font-size: 12px;
-            margin-top: 15px;
-            font-style: italic;
-            line-height: 1.6;
-        }
-        .note strong {
             color: #d9534f;
         }
     </style>
@@ -144,6 +156,20 @@
                 </div>
             </div>
 
+            <div class="input-grid">
+                <div class="input-item">
+                    <label for="useCalculatedSqft">使用自動計算的坪數？</label>
+                    <select id="useCalculatedSqft">
+                        <option value="auto">是（自動計算）</option>
+                        <option value="manual">否（手動輸入）</option>
+                    </select>
+                </div>
+                <div class="input-item" id="manualSqftSection" style="display: none;">
+                    <label for="manualSqft">房屋坪數（扣除車位後）：</label>
+                    <input type="number" id="manualSqft" value="0" step="0.1" placeholder="例：70.87">
+                </div>
+            </div>
+
             <div class="section-title" style="margin-top: 20px;">價格資訊</div>
             <div class="input-grid">
                 <div class="input-item">
@@ -178,6 +204,15 @@
             </div>
         </div>
 
+        <div class="explanation-box">
+            <h3>計算說明</h3>
+            <p><strong>房屋實價</strong> = 開價 - 車位價格</p>
+            <p><strong>房屋坪數</strong> = 權狀坪數 - 車位坪數</p>
+            <p><strong>單價</strong> = 房屋實價 ÷ 房屋坪數</p>
+            <p><strong>銀行貸款額</strong> = 銀行預估價格 × 貸款成數</p>
+            <p><strong>自備款</strong> = 開價 - 銀行貸款額</p>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -192,15 +227,6 @@
             <tbody id="tableBody">
             </tbody>
         </table>
-
-        <div class="note">
-            <strong>計算說明：</strong><br>
-            ※ 房屋實價 = 開價 - 車位價格<br>
-            ※ 房屋坪數 = 權狀坪數 - 車位坪數<br>
-            ※ 單價 = 房屋實價 ÷ 房屋坪數<br>
-            ※ 銀行貸款額 = 銀行預估價格 × 貸款成數<br>
-            <strong>※ 自備款 = 開價 - 銀行貸款額</strong>
-        </div>
     </div>
 
     <script>
@@ -211,7 +237,17 @@
             const listPrice = parseFloat(document.getElementById('listPrice').value) || 0;
             const bankEstimate = parseFloat(document.getElementById('bankEstimate').value) || 0;
             const bankMode = document.getElementById('bankMode').value;
+            const useCalculatedSqft = document.getElementById('useCalculatedSqft').value;
             
+            // 決定房屋坪數
+            let houseSqft = 0;
+            if (useCalculatedSqft === 'auto') {
+                houseSqft = sqft - parkingSqft;
+            } else {
+                houseSqft = parseFloat(document.getElementById('manualSqft').value) || 0;
+            }
+            
+            // 計算銀行貸款額
             let bankLoan = 0;
             let calculatedLtv = 0;
             
@@ -226,11 +262,10 @@
             
             document.getElementById('calculatedLtv').value = calculatedLtv.toFixed(2) + '%';
             
-            const houseSqft = sqft - parkingSqft;
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
             
-            // 生成價格清單：開價和向下調整的價格
+            // 生成價格清單
             const prices = [listPrice];
             for (let i = 10; i <= 200; i += 10) {
                 if (listPrice - i > 0) {
@@ -241,20 +276,30 @@
             prices.forEach(price => {
                 const housePriceWan = price - parkingPrice;
                 const unitPrice = houseSqft > 0 ? (housePriceWan / houseSqft).toFixed(2) : 0;
-                const downPayment = price - bankLoan;
+                const downPayment = Math.round(price - bankLoan);
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="price-label">${price}</td>
-                    <td>${housePriceWan}</td>
+                    <td class="price-label">${price.toFixed(0)}</td>
+                    <td>${housePriceWan.toFixed(0)}</td>
                     <td>${houseSqft.toFixed(2)}</td>
                     <td>${unitPrice}</td>
-                    <td>${bankLoan}</td>
-                    <td class="highlight-down-payment">${downPayment}</td>
+                    <td>${bankLoan.toFixed(0)}</td>
+                    <td class="highlight-down-payment">${downPayment.toFixed(0)}</td>
                 `;
                 tbody.appendChild(row);
             });
         }
+        
+        document.getElementById('useCalculatedSqft').addEventListener('change', function() {
+            const manualSection = document.getElementById('manualSqftSection');
+            if (this.value === 'manual') {
+                manualSection.style.display = 'flex';
+            } else {
+                manualSection.style.display = 'none';
+            }
+            updateTable();
+        });
         
         document.getElementById('bankMode').addEventListener('change', function() {
             const ltvSection = document.getElementById('ltvSection');
@@ -277,8 +322,8 @@
         document.getElementById('bankEstimate').addEventListener('input', updateTable);
         document.getElementById('bankLtv').addEventListener('input', updateTable);
         document.getElementById('bankLoanAmount').addEventListener('input', updateTable);
+        document.getElementById('manualSqft').addEventListener('input', updateTable);
         
-        // 初始化表格
         updateTable();
     </script>
 </body>
