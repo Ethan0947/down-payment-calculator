@@ -2,341 +2,402 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>房屋自備款準備表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房屋自備款準備表｜Ethan 朱晟華</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', '微軟正黑體', sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
+        :root {
+            --primary: #1a2744;
+            --accent: #c8a96e;
+            --bg: #f4f2ee;
+            --card: #ffffff;
+            --danger: #c0392b;
+            --success: #27ae60;
+            --text: #1a1a1a;
+            --muted: #888;
+            --border: #e0dbd0;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .input-section {
-            background-color: #fffacd;
-            padding: 20px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            border: 1px solid #f0e68c;
-        }
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        @media (max-width: 768px) {
-            .input-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .input-item {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-            font-size: 13px;
-        }
-        input[type="number"], input[type="text"], input[type="date"], select {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        .section-title {
-            font-weight: bold;
-            color: #4a90e2;
-            margin-top: 15px;
-            margin-bottom: 10px;
-            font-size: 13px;
-        }
-        .explanation-box {
-            background-color: #e8f4f8;
-            border-left: 4px solid #4a90e2;
-            padding: 20px;
-            border-radius: 4px;
-            margin: 20px 0;
-        }
-        .explanation-box h3 {
-            color: #4a90e2;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-        .explanation-box p {
-            color: #333;
-            margin: 8px 0;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .explanation-box strong {
-            color: #d9534f;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th {
-            background-color: #4a90e2;
-            color: white;
-            padding: 12px;
-            text-align: center;
-            font-weight: bold;
-            border: 1px solid #333;
-            font-size: 13px;
-        }
-        td {
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            font-size: 13px;
-            text-align: right;
-        }
-        @media (max-width: 768px) {
-            table {
-                font-size: 12px;
-            }
-            th, td {
-                padding: 8px 6px;
-                font-size: 12px;
-            }
-            .price-label {
-                font-size: 12px;
-            }
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        tr:hover {
-            background-color: #f0f0f0;
-        }
-        .price-label {
-            text-align: left;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .highlight-down-payment {
-            background-color: #ffcccc;
-            font-weight: bold;
-            color: #d9534f;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        .header { background: var(--primary); color: white; padding: 24px 20px; position: relative; overflow: hidden; }
+        .header::before { content:''; position:absolute; top:-40px; right:-40px; width:200px; height:200px; border-radius:50%; background:rgba(200,169,110,0.12); }
+        .header-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+        .header-badge { display:inline-block; background:var(--accent); color:var(--primary); font-size:0.68rem; font-weight:700; padding:2px 10px; border-radius:20px; margin-bottom:6px; letter-spacing:1px; }
+        .header h1 { font-size:1.4rem; font-weight:700; margin-bottom:3px; }
+        .header p { font-size:0.78rem; color:rgba(255,255,255,0.5); }
+
+        .main { max-width: 900px; margin: 0 auto; padding: 18px 14px 40px; }
+
+        .card { background:var(--card); border-radius:14px; box-shadow:0 2px 14px rgba(0,0,0,0.06); margin-bottom:18px; overflow:hidden; }
+        .card-header { background:var(--primary); color:white; padding:12px 18px; font-size:0.82rem; font-weight:700; letter-spacing:0.5px; }
+        .card-body { padding:18px; }
+
+        .form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; }
+        .form-item { display:flex; flex-direction:column; gap:4px; }
+        label { font-size:0.7rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; }
+        input, select { padding:9px 11px; border:1.5px solid var(--border); border-radius:8px; font-size:0.88rem; font-family:'Noto Sans TC',sans-serif; color:var(--text); background:#fafaf8; transition:border-color 0.2s; }
+        input:focus, select:focus { outline:none; border-color:var(--accent); background:white; }
+        input[readonly] { background:#f0ede6; color:var(--primary); font-weight:700; cursor:not-allowed; }
+        .sec-div { font-size:0.7rem; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin:14px 0 8px; padding-bottom:5px; border-bottom:1px solid var(--border); }
+
+        /* ── 動態費用區 ── */
+        .fee-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        @media(max-width:600px){ .fee-grid{grid-template-columns:1fr;} }
+        .fee-section h4 { font-size:0.72rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+        .fee-row { display:flex; justify-content:space-between; align-items:flex-start; padding:6px 0; border-bottom:1px dashed #e8dfc8; font-size:0.8rem; gap:8px; }
+        .fee-row:last-child { border-bottom:none; }
+        .fee-label { color:var(--text); flex:1; line-height:1.4; }
+        .fee-formula { color:var(--muted); font-size:0.68rem; display:block; }
+        .fee-value { font-weight:700; white-space:nowrap; text-align:right; min-width:80px; }
+        .fee-value.calculated { color:var(--danger); }
+        .fee-value.estimated { color:#e67e22; }
+        .fee-value.variable { color:var(--muted); font-weight:400; font-size:0.75rem; }
+        .fee-total-row { background:#fff8e8; border:1.5px solid var(--accent); border-radius:8px; padding:10px 14px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; }
+        .fee-total-label { font-size:0.82rem; font-weight:700; color:var(--primary); }
+        .fee-total-value { font-size:1rem; font-weight:900; color:var(--danger); }
+        .fee-note-box { background:#fef9f0; border:1px solid var(--accent); border-radius:8px; padding:10px 14px; margin-top:10px; font-size:0.75rem; color:#666; line-height:1.6; }
+
+        /* ── Table ── */
+        .table-wrap { overflow-x:auto; }
+        table { width:100%; border-collapse:collapse; }
+        thead tr { background:var(--primary); }
+        th { color:white; padding:11px 13px; text-align:center; font-size:0.76rem; font-weight:700; white-space:nowrap; }
+        td { padding:9px 13px; font-size:0.8rem; text-align:right; border-bottom:1px solid var(--border); }
+        .td-label { text-align:left; font-weight:700; color:var(--primary); }
+        tr:hover td { background:#f8f5ef; }
+        .row-hl td { background:#fff8e8; }
+        .td-dp { color:var(--danger); font-weight:700; }
+        .row-hl .td-dp { font-size:0.95rem; font-weight:900; }
+
+        /* ── 免責 ── */
+        .disclaimer { background:#f0ede6; border-left:4px solid var(--muted); border-radius:0 10px 10px 0; padding:12px 16px; margin-top:18px; }
+        .disclaimer p { font-size:0.73rem; color:var(--muted); line-height:1.7; }
+        .disclaimer strong { color:var(--text); }
+
+        .footer { text-align:center; padding:18px; font-size:0.7rem; color:var(--muted); }
+        .footer strong { color:var(--primary); }
+
+        @media(max-width:600px){ th,td{padding:7px 7px;font-size:0.73rem;} }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>房屋自備款準備表</h2>
-        
-        <div class="input-section">
-            <div class="section-title">基本資訊</div>
-            <div class="input-grid">
-                <div class="input-item">
-                    <label for="property">地點/物件名稱：</label>
-                    <input type="text" id="property" placeholder="例：新北市三重區...">
+
+<div class="header">
+    <div class="header-inner">
+        <div class="header-badge">台灣房屋東湖店</div>
+        <h1>🏠 房屋自備款準備表</h1>
+        <p>朱晟華 Ethan｜詠悅團隊｜快速試算不同開價下的自備款</p>
+    </div>
+</div>
+
+<div class="main">
+
+    <!-- 基本資訊 -->
+    <div class="card">
+        <div class="card-header">📋 基本資訊</div>
+        <div class="card-body">
+            <div class="form-grid">
+                <div class="form-item">
+                    <label>地點／物件名稱</label>
+                    <input type="text" id="property" placeholder="例：汐止區伯爵仁愛特區" autocomplete="off">
                 </div>
-                <div class="input-item">
-                    <label for="contact">聯絡人：</label>
-                    <input type="text" id="contact" placeholder="例：晨芊">
+                <div class="form-item">
+                    <label>客戶姓名</label>
+                    <input type="text" id="contact" placeholder="例：王先生" autocomplete="off">
                 </div>
-                <div class="input-item">
-                    <label for="date">看房日期：</label>
-                    <input type="date" id="date">
+                <div class="form-item">
+                    <label>看房日期</label>
+                    <input type="date" id="date" autocomplete="off">
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="section-title" style="margin-top: 20px;">房屋資訊</div>
-            <div class="input-grid">
-                <div class="input-item">
-                    <label for="sqft">權狀坪數：</label>
-                    <input type="number" id="sqft" value="76.08" step="0.1" placeholder="例：76.08">
+    <!-- 房屋資訊 -->
+    <div class="card">
+        <div class="card-header">🏗️ 房屋與貸款資訊</div>
+        <div class="card-body">
+            <div class="sec-div">坪數</div>
+            <div class="form-grid">
+                <div class="form-item">
+                    <label>權狀坪數</label>
+                    <input type="number" id="sqft" value="76.08" step="0.1" autocomplete="off">
                 </div>
-                <div class="input-item">
-                    <label for="parkingSqft">車位坪數：</label>
-                    <input type="number" id="parkingSqft" value="5.21" step="0.1" placeholder="例：5.21">
+                <div class="form-item">
+                    <label>車位坪數</label>
+                    <input type="number" id="parkingSqft" value="5.21" step="0.1" autocomplete="off">
                 </div>
-                <div class="input-item">
-                    <label for="parkingPrice">車位價格（萬）：</label>
-                    <input type="number" id="parkingPrice" value="180" step="10" placeholder="例：180">
-                </div>
-            </div>
-
-            <div class="input-grid">
-                <div class="input-item">
-                    <label for="useCalculatedSqft">使用自動計算的坪數？</label>
-                    <select id="useCalculatedSqft">
-                        <option value="auto">是（自動計算）</option>
-                        <option value="manual">否（手動輸入）</option>
+                <div class="form-item">
+                    <label>坪數計算</label>
+                    <select id="useCalc" autocomplete="off">
+                        <option value="auto">自動（權狀－車位）</option>
+                        <option value="manual">手動輸入</option>
                     </select>
                 </div>
-                <div class="input-item" id="manualSqftSection" style="display: none;">
-                    <label for="manualSqft">房屋坪數（扣除車位後）：</label>
-                    <input type="number" id="manualSqft" value="0" step="0.1" placeholder="例：70.87">
+                <div class="form-item" id="manualSqftSec" style="display:none;">
+                    <label>房屋坪數（扣車位後）</label>
+                    <input type="number" id="manualSqft" value="0" step="0.1" autocomplete="off">
                 </div>
             </div>
 
-            <div class="section-title" style="margin-top: 20px;">價格資訊</div>
-            <div class="input-grid">
-                <div class="input-item">
-                    <label for="listPrice">開價（萬）：</label>
-                    <input type="number" id="listPrice" value="1680" step="10" placeholder="例：1680">
+            <div class="sec-div">價格</div>
+            <div class="form-grid">
+                <div class="form-item">
+                    <label>開價（萬元）</label>
+                    <input type="number" id="listPrice" value="1680" step="10" autocomplete="off">
                 </div>
-                <div class="input-item">
-                    <label for="bankEstimate">銀行預估價格（萬）：</label>
-                    <input type="number" id="bankEstimate" value="1293" step="10" placeholder="例：1293">
+                <div class="form-item">
+                    <label>車位價格（萬元）</label>
+                    <input type="number" id="parkingPrice" value="180" step="10" autocomplete="off">
                 </div>
-                <div class="input-item">
-                    <label for="bankMode">銀行貸款資訊：</label>
-                    <select id="bankMode" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                <div class="form-item">
+                    <label>銀行預估價格（萬元）</label>
+                    <input type="number" id="bankEstimate" value="1293" step="10" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="sec-div">貸款條件</div>
+            <div class="form-grid">
+                <div class="form-item">
+                    <label>貸款輸入方式</label>
+                    <select id="bankMode" autocomplete="off">
                         <option value="ltv">按成數</option>
                         <option value="amount">按金額</option>
                     </select>
                 </div>
-            </div>
-            <div class="input-grid">
-                <div class="input-item" id="ltvSection">
-                    <label for="bankLtv">貸款成數（%）：</label>
-                    <input type="number" id="bankLtv" value="80" step="1" min="0" max="100" placeholder="例：80">
+                <div class="form-item" id="ltvSec">
+                    <label>貸款成數（%）</label>
+                    <input type="number" id="bankLtv" value="80" step="1" min="0" max="100" autocomplete="off">
                 </div>
-                <div class="input-item" id="amountSection" style="display: none;">
-                    <label for="bankLoanAmount">銀行貸款額（萬）：</label>
-                    <input type="number" id="bankLoanAmount" value="1034" step="10" placeholder="例：1034">
+                <div class="form-item" id="amountSec" style="display:none;">
+                    <label>銀行貸款額（萬元）</label>
+                    <input type="number" id="bankLoanAmount" value="1034" step="10" autocomplete="off">
                 </div>
-                <div class="input-item">
-                    <label for="calculatedLtv">計算結果成數：</label>
-                    <input type="text" id="calculatedLtv" readonly style="background-color: #e8f4f8; cursor: not-allowed;">
+                <div class="form-item">
+                    <label>實際貸款成數</label>
+                    <input type="text" id="calcLtv" readonly autocomplete="off">
                 </div>
             </div>
         </div>
-
-        <div class="explanation-box">
-            <h3>計算說明</h3>
-            <p><strong>房屋實價</strong> = 開價 - 車位價格</p>
-            <p><strong>房屋坪數</strong> = 權狀坪數 - 車位坪數</p>
-            <p><strong>單價</strong> = 房屋實價 ÷ 房屋坪數</p>
-            <p><strong>銀行貸款額</strong> = 銀行預估價格 × 貸款成數</p>
-            <p><strong>自備款</strong> = 開價 - 銀行貸款額</p>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>開價（萬元）</th>
-                    <th>房屋實價（萬元）</th>
-                    <th>房屋坪數</th>
-                    <th>單價（萬/坪）</th>
-                    <th>銀行貸款額（萬元）</th>
-                    <th>自備款（萬元）</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-            </tbody>
-        </table>
     </div>
 
-    <script>
-        function updateTable() {
-            const sqft = parseFloat(document.getElementById('sqft').value) || 0;
-            const parkingSqft = parseFloat(document.getElementById('parkingSqft').value) || 0;
-            const parkingPrice = parseFloat(document.getElementById('parkingPrice').value) || 0;
-            const listPrice = parseFloat(document.getElementById('listPrice').value) || 0;
-            const bankEstimate = parseFloat(document.getElementById('bankEstimate').value) || 0;
-            const bankMode = document.getElementById('bankMode').value;
-            const useCalculatedSqft = document.getElementById('useCalculatedSqft').value;
-            
-            // 決定房屋坪數
-            let houseSqft = 0;
-            if (useCalculatedSqft === 'auto') {
-                houseSqft = sqft - parkingSqft;
-            } else {
-                houseSqft = parseFloat(document.getElementById('manualSqft').value) || 0;
-            }
-            
-            // 計算銀行貸款額
-            let bankLoan = 0;
-            let calculatedLtv = 0;
-            
-            if (bankMode === 'ltv') {
-                const bankLtv = parseFloat(document.getElementById('bankLtv').value) || 0;
-                bankLoan = Math.round(bankEstimate * bankLtv / 100);
-                calculatedLtv = bankLtv;
-            } else {
-                bankLoan = parseFloat(document.getElementById('bankLoanAmount').value) || 0;
-                calculatedLtv = ((bankLoan / bankEstimate) * 100).toFixed(2);
-            }
-            
-            document.getElementById('calculatedLtv').value = calculatedLtv.toFixed(2) + '%';
-            
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-            
-            // 生成價格清單
-            const prices = [listPrice];
-            for (let i = 10; i <= 200; i += 10) {
-                if (listPrice - i > 0) {
-                    prices.push(listPrice - i);
-                }
-            }
-            
-            prices.forEach(price => {
-                const housePriceWan = price - parkingPrice;
-                const unitPrice = houseSqft > 0 ? (housePriceWan / houseSqft).toFixed(2) : 0;
-                const downPayment = Math.round(price - bankLoan);
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="price-label">${price.toFixed(0)}</td>
-                    <td>${housePriceWan.toFixed(0)}</td>
-                    <td>${houseSqft.toFixed(2)}</td>
-                    <td>${unitPrice}</td>
-                    <td>${bankLoan.toFixed(0)}</td>
-                    <td class="highlight-down-payment">${downPayment.toFixed(0)}</td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-        
-        document.getElementById('useCalculatedSqft').addEventListener('change', function() {
-            const manualSection = document.getElementById('manualSqftSection');
-            if (this.value === 'manual') {
-                manualSection.style.display = 'flex';
-            } else {
-                manualSection.style.display = 'none';
-            }
-            updateTable();
-        });
-        
-        document.getElementById('bankMode').addEventListener('change', function() {
-            const ltvSection = document.getElementById('ltvSection');
-            const amountSection = document.getElementById('amountSection');
-            
-            if (this.value === 'ltv') {
-                ltvSection.style.display = 'flex';
-                amountSection.style.display = 'none';
-            } else {
-                ltvSection.style.display = 'none';
-                amountSection.style.display = 'flex';
-            }
-            updateTable();
-        });
-        
-        document.getElementById('sqft').addEventListener('input', updateTable);
-        document.getElementById('parkingSqft').addEventListener('input', updateTable);
-        document.getElementById('parkingPrice').addEventListener('input', updateTable);
-        document.getElementById('listPrice').addEventListener('input', updateTable);
-        document.getElementById('bankEstimate').addEventListener('input', updateTable);
-        document.getElementById('bankLtv').addEventListener('input', updateTable);
-        document.getElementById('bankLoanAmount').addEventListener('input', updateTable);
-        document.getElementById('manualSqft').addEventListener('input', updateTable);
-        
-        updateTable();
-    </script>
+    <!-- 動態費用試算 -->
+    <div class="card">
+        <div class="card-header">💰 買方費用試算（依台灣房屋費用一覽表）</div>
+        <div class="card-body">
+            <div class="fee-grid">
+                <!-- 左欄 -->
+                <div class="fee-section">
+                    <h4>📝 簽約時</h4>
+                    <div class="fee-row">
+                        <div class="fee-label">簽約費</div>
+                        <div class="fee-value calculated">1,000 元</div>
+                    </div>
+                    <div class="fee-row">
+                        <div class="fee-label">仲介服務費<span class="fee-formula">依合約（成交價 × 約1%）</span></div>
+                        <div class="fee-value calculated" id="feeAgent">—</div>
+                    </div>
+
+                    <h4 style="margin-top:14px;">📄 簽約後（預收規費）</h4>
+                    <div class="fee-row">
+                        <div class="fee-label">所有權移轉代辦費<span class="fee-formula">土地+建物，一筆一棟起</span></div>
+                        <div class="fee-value estimated">14,000 元起</div>
+                    </div>
+                    <div class="fee-row">
+                        <div class="fee-label">貸款抵押設定代書費<span class="fee-formula">每件 4,000 元起</span></div>
+                        <div class="fee-value estimated">4,000 元起</div>
+                    </div>
+                    <div class="fee-row">
+                        <div class="fee-label">印花稅<span class="fee-formula">依稅捐稽關核定</span></div>
+                        <div class="fee-value variable">依核定</div>
+                    </div>
+                    <div class="fee-row">
+                        <div class="fee-label">登記規費、書狀費<span class="fee-formula">依地政機關核定</span></div>
+                        <div class="fee-value variable">依核定</div>
+                    </div>
+                    <div class="fee-row">
+                        <div class="fee-label">實價登錄費<span class="fee-formula">每件固定費用</span></div>
+                        <div class="fee-value estimated">1,500 元</div>
+                    </div>
+                    <div class="fee-row">
+                        <div class="fee-label">火險、地震險<span class="fee-formula">有貸款才適用，依保險公司費率</span></div>
+                        <div class="fee-value variable">依費率</div>
+                    </div>
+                </div>
+
+                <!-- 右欄 -->
+                <div class="fee-section">
+                    <h4>🏠 完稅時</h4>
+                    <div class="fee-row">
+                        <div class="fee-label">契稅<span class="fee-formula">房屋評定現值 × 6%（非開價）</span></div>
+                        <div class="fee-value variable">依評定現值</div>
+                    </div>
+
+                    <h4 style="margin-top:14px;">🔑 交屋時</h4>
+                    <div class="fee-row">
+                        <div class="fee-label">履約保證費<span class="fee-formula">成交價 × 萬分之3</span></div>
+                        <div class="fee-value calculated" id="feeEscrow">—</div>
+                    </div>
+                    <div class="fee-row">
+                        <div class="fee-label">地價稅、房屋稅等<span class="fee-formula">依交屋日比例分算，交屋後由買方負擔</span></div>
+                        <div class="fee-value variable">依比例</div>
+                    </div>
+
+                    <h4 style="margin-top:14px;">📊 可估算費用合計</h4>
+                    <div class="fee-total-row">
+                        <div>
+                            <div class="fee-total-label">最低估算額</div>
+                            <div style="font-size:0.68rem;color:var(--muted);">（固定項目合計，不含依核定項目）</div>
+                        </div>
+                        <div class="fee-total-value" id="feeTotal">—</div>
+                    </div>
+
+                    <div class="fee-note-box">
+                        🔴 <strong>以上費用不含在試算表的自備款內</strong>，客戶實際需準備金額為：<br>
+                        <strong>自備款 ＋ 上述費用</strong><br>
+                        各項稅費依稅捐稽關、地政機關、銀行核定為準，本試算僅供參考。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 試算表 -->
+    <div class="card">
+        <div class="card-header">📊 自備款試算表（開價往下每 10 萬一格）</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>開價（萬）</th>
+                        <th>房屋實價（萬）</th>
+                        <th>房屋坪數</th>
+                        <th>單價（萬/坪）</th>
+                        <th>銀行貸款額（萬）</th>
+                        <th>純自備款（萬）</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <p>
+            <strong>⚠️ 免責聲明｜數字均為試算，詳請以實際為準</strong><br>
+            本表格為快速試算輔助工具，所有數字以輸入條件自動計算，<strong>不代表任何買賣合約之依據</strong>。
+            實際自備款、貸款成數、銀行估價、各項費用金額，須依個案情況、銀行審核、地政機關、稅捐稽關之實際核定為準。
+            仲介服務費依正式合約為準。買賣雙方費用詳情請以台灣房屋正式費用說明文件為準，並建議與專業人員確認後再做財務規劃。
+        </p>
+    </div>
+
+</div>
+
+<div class="footer">
+    <strong>朱晟華 Ethan</strong>｜台灣房屋東湖特許加盟店｜詠悅團隊<br>
+    本工具僅供帶看輔助使用，數字均為估算，實際以正式合約及機關核定為準。
+</div>
+
+<script>
+// ── 防止瀏覽器記憶 ──
+document.querySelectorAll('input, select').forEach(el => {
+    el.setAttribute('autocomplete', 'off');
+});
+
+// ── 頁面關閉/重新整理時清除所有輸入 ──
+window.addEventListener('beforeunload', () => {
+    ['property','contact','sqft','parkingSqft','parkingPrice','listPrice','bankEstimate','bankLtv','bankLoanAmount','manualSqft'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+});
+
+function fmt(n) {
+    if (n === null || isNaN(n)) return '—';
+    return n.toLocaleString('zh-TW') + ' 元';
+}
+function fmtWan(n) {
+    return n.toLocaleString('zh-TW') + ' 萬';
+}
+
+function updateAll() {
+    const sqft = parseFloat(document.getElementById('sqft').value) || 0;
+    const parkingSqft = parseFloat(document.getElementById('parkingSqft').value) || 0;
+    const parkingPrice = parseFloat(document.getElementById('parkingPrice').value) || 0;
+    const listPrice = parseFloat(document.getElementById('listPrice').value) || 0;
+    const bankEstimate = parseFloat(document.getElementById('bankEstimate').value) || 0;
+    const bankMode = document.getElementById('bankMode').value;
+    const useCalc = document.getElementById('useCalc').value;
+
+    let houseSqft = useCalc === 'auto' ? sqft - parkingSqft : (parseFloat(document.getElementById('manualSqft').value) || 0);
+
+    let bankLoan = 0, calcLtv = 0;
+    if (bankMode === 'ltv') {
+        const ltv = parseFloat(document.getElementById('bankLtv').value) || 0;
+        bankLoan = Math.round(bankEstimate * ltv / 100);
+        calcLtv = ltv;
+    } else {
+        bankLoan = parseFloat(document.getElementById('bankLoanAmount').value) || 0;
+        calcLtv = bankEstimate > 0 ? ((bankLoan / bankEstimate) * 100) : 0;
+    }
+    document.getElementById('calcLtv').value = calcLtv.toFixed(2) + '%';
+
+    // ── 動態費用計算 ──
+    // 仲介費（以開價 × 1% 估算，實際依合約）
+    const agentFee = listPrice > 0 ? Math.round(listPrice * 10000 * 0.01) : null;
+    document.getElementById('feeAgent').textContent = agentFee ? fmt(agentFee) + '（估）' : '—';
+
+    // 履約保證費 = 成交價 × 萬分之3（以開價估算）
+    const escrowFee = listPrice > 0 ? Math.round(listPrice * 10000 * 0.0003) : null;
+    document.getElementById('feeEscrow').textContent = escrowFee ? fmt(escrowFee) : '—';
+
+    // 最低估算合計（固定可算的項目）
+    const fixedMin = 1000 + 14000 + 4000 + 1500 + (escrowFee || 0);
+    document.getElementById('feeTotal').textContent = listPrice > 0 ? '約 ' + fmt(fixedMin) + ' 起' : '—';
+
+    // ── 試算表 ──
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    const prices = [listPrice];
+    for (let i = 10; i <= 300; i += 10) {
+        if (listPrice - i > 0) prices.push(listPrice - i);
+    }
+    prices.forEach((price, idx) => {
+        const housePrice = price - parkingPrice;
+        const unitPrice = houseSqft > 0 ? (housePrice / houseSqft).toFixed(2) : '—';
+        const dp = Math.round(price - bankLoan);
+        const isFirst = idx === 0;
+        const row = document.createElement('tr');
+        if (isFirst) row.classList.add('row-hl');
+        row.innerHTML = `
+            <td class="td-label">${price.toFixed(0)} ${isFirst ? '⭐' : ''}</td>
+            <td>${housePrice.toFixed(0)}</td>
+            <td>${houseSqft.toFixed(2)}</td>
+            <td>${unitPrice}</td>
+            <td>${bankLoan.toFixed(0)}</td>
+            <td class="td-dp">${dp.toFixed(0)}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+document.getElementById('useCalc').addEventListener('change', function() {
+    document.getElementById('manualSqftSec').style.display = this.value === 'manual' ? 'flex' : 'none';
+    updateAll();
+});
+document.getElementById('bankMode').addEventListener('change', function() {
+    document.getElementById('ltvSec').style.display = this.value === 'ltv' ? 'flex' : 'none';
+    document.getElementById('amountSec').style.display = this.value === 'amount' ? 'flex' : 'none';
+    updateAll();
+});
+['sqft','parkingSqft','parkingPrice','listPrice','bankEstimate','bankLtv','bankLoanAmount','manualSqft'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateAll);
+});
+
+// 預設今天日期（不記憶）
+document.getElementById('date').valueAsDate = new Date();
+updateAll();
+</script>
 </body>
 </html>
